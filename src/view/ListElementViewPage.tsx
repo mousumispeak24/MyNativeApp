@@ -5,8 +5,6 @@ export class ListElementViewPage extends Component<any, any> {
     super(props);
   }
   public render() {
-    console.log("***************", this.props);
-
     return (
       <ScrollView style={styles.cardView}>
         <Text style={styles.prescriptionHeader}>{this.props.route.params.data.title}</Text>
@@ -16,7 +14,10 @@ export class ListElementViewPage extends Component<any, any> {
         <Text style={styles.textStyle}>Release Date: {this.props.route.params.data.release_date}</Text>
         <TouchableOpacity style={styles.characterStyle}
           onPress={() => {
-            this.props.navigation.navigate('characterList', { characterList: this.props.route.params.data });
+            if (this.props.route.params.data.characters !== undefined && this.props.route.params.data.characters !== null && this.props.route.params.data.characters.length > 0) {
+              console.log("yes");
+              this.props.navigation.navigate('characterList', { characterList: this.props.route.params.data });
+            }
           }}
         >
           <Text style={styles.buttonTextStyle}>Characters</Text>

@@ -5,19 +5,27 @@ import { View, StyleSheet, Text, TouchableOpacity, FlatList } from 'react-native
 export class RecordFlatList extends Component<any, any> {
   constructor(props: any) {
     super(props);
+    this.state = {
+      data: []
+    }
   }
-  dlistName(item) {
-    console.log(item);
-    fetch(item)
-      .then((response) => response.json())
-      .then((json) => {
-        console.log(json.name);
-        return json.name;
+  componentDidMount() {
+    if (this.props.route && this.props.route.params.characterList) {
+      this.props.route.params.characterList.characters.map(item => {
+        fetch(item)
+          .then((response) => response.json())
+          .then((json) => {
+            const d = this.state.data;
+            d.push(json.name);
+            this.setState({ data: d })
+            // return json.name;
+          })
+          .catch((error) => console.error(error));
       })
-      .catch((error) => console.error(error));
+
+    }
   }
   public render() {
-    console.log(this.props.route.params.characterList);
     return (
       <View>
         <Text style={styles.headerText}>Character</Text>
@@ -26,10 +34,10 @@ export class RecordFlatList extends Component<any, any> {
           keyExtractor={(item, index) => index.toString()}
           onEndReachedThreshold={0.1}
           removeClippedSubviews={false}
-          data={this.props.route.params.characterList.characters}
+          data={this.state.data}
           renderItem={({ item, index, separators }) => (
             <View style={styles.cardView}>
-              <Text style={styles.prescriptionHeader}>{this.dlistName(item)}</Text>
+              <Text style={styles.prescriptionHeader}>{item}</Text>
             </View>
           )}
         />
@@ -49,7 +57,7 @@ const styles = StyleSheet.create({
   prescriptionHeader: {
     marginStart: 20,
     fontSize: 10,
-    color: 'red',
+    color: '#7c8c91',
     fontSize: 24,
     fontWeight: '500',
     margin: 10,
