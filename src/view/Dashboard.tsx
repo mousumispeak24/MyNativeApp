@@ -43,27 +43,11 @@ export default class Dashboard extends Component<any, {}>{
     listDataIs.splice(indexIs, 1);
     this.setState({ listData: listDataIs });
   }
-  searchData(value) {
-    const newArray = []
-    this.state.deflistData.find(v => {
-      if (v.title.toLowerCase().includes(value)) {
-        newArray.push(v)
-      }
-    })
-    this.setState({ listData: newArray });
-  }
+
   render() {
 
     return (
       <View style={styles.scrollView} refreshControl={this.refreshControl()}>
-        <TouchableOpacity
-          style={styles.searchField}
-          onPress={() => {
-          }}>
-          <TextInput style={styles.textArea} onChangeText={(value) => {
-            this.searchData(value)
-          }} placeholder="Search"></TextInput>
-        </TouchableOpacity>
         <TouchableOpacity
           style={styles.addFilm}
           onPress={() => {
